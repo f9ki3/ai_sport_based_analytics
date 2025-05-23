@@ -1,0 +1,110 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI-Based Sport Analytics</title>
+    {% include "components/header.html" %}
+  </head>
+  <body>
+    <div class="row">
+      <div class="col-12 col-md-3 mx-auto">
+        <div
+          class="d-flex justify-content-center align-items-center flex-column"
+          style="height: 100vh"
+        >
+          <i class="bi bi-person-plus-fill display-1 text-main"></i>
+          <h1 class="text-center fw-bold mt-5 mb-5">Register Account</h1>
+
+          <div class="container">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control rounded-4 form-control-lg"
+                id="floatingName"
+                placeholder="Enter your Full Name"
+              />
+              <label for="floatingName" class="text-muted">Full Name</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="email"
+                class="form-control rounded-4 form-control-lg"
+                id="floatingEmail"
+                placeholder="Enter your Email"
+              />
+              <label for="floatingEmail" class="text-muted">Email</label>
+            </div>
+            <div class="form-floating mb-3 position-relative">
+              <input
+                type="password"
+                class="form-control rounded-4 form-control-lg"
+                id="floatingPassword"
+                placeholder="Enter your Password"
+              />
+              <label for="floatingPassword" class="text-muted">Password</label>
+              <span
+                class="position-absolute top-50 end-0 translate-middle-y me-3"
+                style="cursor: pointer"
+                onclick="togglePasswordVisibility('floatingPassword', 'passwordIcon')"
+              >
+                <i id="passwordIcon" class="bi bi-eye"></i>
+              </span>
+            </div>
+            <div class="form-floating mb-3 position-relative">
+              <input
+                type="password"
+                class="form-control rounded-4 form-control-lg"
+                id="floatingConfirmPassword"
+                placeholder="Confirm your Password"
+              />
+              <label for="floatingConfirmPassword" class="text-muted"
+                >Confirm Password</label
+              >
+              <span
+                class="position-absolute top-50 end-0 translate-middle-y me-3"
+                style="cursor: pointer"
+                onclick="togglePasswordVisibility('floatingConfirmPassword', 'confirmPasswordIcon')"
+              >
+                <i id="confirmPasswordIcon" class="bi bi-eye"></i>
+              </span>
+            </div>
+            <script>
+              function togglePasswordVisibility(inputId, iconId) {
+                const passwordInput = document.getElementById(inputId);
+                const passwordIcon = document.getElementById(iconId);
+                if (passwordInput.type === "password") {
+                  passwordInput.type = "text";
+                  passwordIcon.classList.remove("bi-eye");
+                  passwordIcon.classList.add("bi-eye-slash");
+                } else {
+                  passwordInput.type = "password";
+                  passwordIcon.classList.remove("bi-eye-slash");
+                  passwordIcon.classList.add("bi-eye");
+                }
+              }
+            </script>
+            <button class="btn rounded-4 btn-lg w-100 border mt-3 bg-main">
+              Register
+            </button>
+          </div>
+          <div
+            class="container mt-5 d-flex justify-content-evenly flex-row align-items-center"
+          >
+            <div class="text-center">
+              <a href="/login" class="text-muted">
+                <i class="bi bi-box-arrow-in-right"></i> Already have an
+                account?
+              </a>
+            </div>
+            <div class="text-center">
+              <a href="/forgot-password" class="text-muted">
+                <i class="bi bi-question-circle"></i> Forgot Password?
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  {% include "components/footer.html" %}
+</html>

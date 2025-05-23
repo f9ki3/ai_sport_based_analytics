@@ -1,0 +1,37 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI-Based Sport Analytics</title>
+    {% include "components/header.html" %}
+  </head>
+  <body>
+    <div class="col-12 col-md-3 mx-auto">
+      <div
+      class="d-flex justify-content-center align-items-center flex-column"
+      style="height: 100vh"
+    >
+      <img
+        src="{{ url_for('static', filename='img/art2.svg') }}"
+        style="height: 300px"
+        alt=""
+      />
+      <div class="text-center container">
+        <h1 class="text-center fw-bold mt-3">
+          Welcome to AI Based Sports Analytics
+        </h1>
+        <p class="text-muted" style="text-align: justify;"></p>
+          A platform that leverages advanced
+          artificial intelligence to provide insights, predictions, and
+          performance analysis for athletes and sports enthusiasts.
+        </p>
+        <a href="/login" class="btn rounded-4 btn-lg w-100 border mt-3 bg-main"
+          >Next</a
+        >
+      </div>
+    </div>
+    </div>
+    
+  </body>
+  {% include "components/footer.html" %}
+</html>

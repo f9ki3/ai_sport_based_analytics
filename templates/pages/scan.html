@@ -1,0 +1,121 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI-Based Sport Analytics</title>
+    {% include "components/header.html" %}
+    <style>
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        min-height: 100vh;
+        text-align: center;
+        cursor: pointer;
+      }
+      .upload-container {
+        border: 2px dashed #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        margin: 20px auto;
+        width: 100%;
+        background-color: #f9f9f9;
+      }
+      .upload-container.dragover {
+        border-color: #007bff;
+        background-color: #e9f5ff;
+      }
+      .hidden-input {
+        display: none;
+      }
+      .analyze-btn:hover {
+        background-color: #0056b3;
+      }
+      .video-preview {
+        margin-top: 20px;
+        max-width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    {% include "components/nav_mobile.html" %}
+
+    <div
+      class="container d-flex justify-content-center align-items-center flex-column"
+    >
+      <h1 class="text-end fw-bolder">Scan Video</h1>
+      <div class="upload-container" id="upload-container">
+        <i
+          class="bi bi-upload"
+          style="font-size: 2rem; margin-bottom: 50px"
+        ></i>
+        <p>Drag and drop your video file here, or click to select a file.</p>
+        <p>Supported formats: MP4, AVI, MOV</p>
+        <input
+          type="file"
+          id="file-input"
+          class="hidden-input"
+          accept="video/*"
+        />
+      </div>
+      <video
+        id="video-preview"
+        class="video-preview mb-5"
+        ,nm
+        controls
+        style="display: none; border: 10px solid #511ccd"
+      ></video>
+      <button id="analyze-btn" class="btn mt-2 mb-5 rounded-4 bg-main" disabled>
+        <i class="bi bi-play-circle"></i> Start Analyze
+      </button>
+    </div>
+
+    <script>
+      const uploadContainer = document.getElementById("upload-container");
+      const fileInput = document.getElementById("file-input");
+      const analyzeBtn = document.getElementById("analyze-btn");
+      const videoPreview = document.getElementById("video-preview");
+
+      uploadContainer.addEventListener("click", () => fileInput.click());
+
+      uploadContainer.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        uploadContainer.classList.add("dragover");
+      });
+
+      uploadContainer.addEventListener("dragleave", () => {
+        uploadContainer.classList.remove("dragover");
+      });
+
+      uploadContainer.addEventListener("drop", (e) => {
+        e.preventDefault();
+        uploadContainer.classList.remove("dragover");
+        const file = e.dataTransfer.files[0];
+        handleFile(file);
+      });
+
+      fileInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        handleFile(file);
+      });
+
+      function handleFile(file) {
+        if (file && file.type.startsWith("video/")) {
+          analyzeBtn.disabled = false;
+          const fileURL = URL.createObjectURL(file);
+          videoPreview.src = fileURL;
+          videoPreview.style.display = "block";
+          alert(`File "${file.name}" is ready for analysis.`);
+        } else {
+          alert("Please upload a valid video file.");
+        }
+      }
+    </script>
+
+    {% include "components/footer.html" %}
+  </body>
+</html>

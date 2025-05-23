@@ -1,0 +1,26 @@
+.text-main {
+  color: #511ccd;
+}
+
+.bg-main {
+  background-color: #511ccd;
+  color: white;
+}
+
+.btn-main {
+  border: 1px solid #511ccd;
+  color: #511ccd;
+}
+
+.btn-main2 {
+  border: 1px solid gray;
+  color: gray;
+}
+
+.bg-secondary {
+  background-color: rgb(242, 244, 247) !important;
+}
+
+.bg-light {
+  background-color: white !important;
+}

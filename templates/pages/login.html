@@ -1,0 +1,84 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI-Based Sport Analytics</title>
+    {% include "components/header.html" %}
+  </head>
+  <body>
+    <div class="col-12 col-md-3 mx-auto">
+      <div
+        class="d-flex justify-content-center align-items-center flex-column"
+        style="height: 100vh"
+      >
+        <img
+          src="{{ url_for('static', filename='img/art1.svg') }}"
+          style="height: 300px"
+          alt=""
+        />
+        <h1 class="text-center fw-bold mt-3">Badminton System</h1>
+
+        <div class="container">
+          <div class="form-floating">
+            <input
+              type="text"
+              class="form-control rounded-4 form-control-lg"
+              id="floatingEmail"
+              placeholder="Enter your Email"
+            />
+            <label for="floatingEmail" class="text-muted">Email</label>
+          </div>
+          <div class="form-floating mt-3 position-relative">
+            <input
+              type="password"
+              class="form-control rounded-4 form-control-lg"
+              id="floatingPassword"
+              placeholder="Enter your Password"
+            />
+            <label for="floatingPassword" class="text-muted">Password</label>
+            <span
+              class="position-absolute top-50 end-0 translate-middle-y me-3"
+              style="cursor: pointer"
+              onclick="togglePasswordVisibility()"
+            >
+              <i id="passwordIcon" class="bi bi-eye"></i>
+            </span>
+          </div>
+          <script>
+            function togglePasswordVisibility() {
+              const passwordInput = document.getElementById("floatingPassword");
+              const passwordIcon = document.getElementById("passwordIcon");
+              if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                passwordIcon.classList.remove("bi-eye");
+                passwordIcon.classList.add("bi-eye-slash");
+              } else {
+                passwordInput.type = "password";
+                passwordIcon.classList.remove("bi-eye-slash");
+                passwordIcon.classList.add("bi-eye");
+              }
+            }
+          </script>
+          <a href="" class="btn rounded-4 btn-lg w-100 border mt-3 bg-main"
+            >Login</a
+          >
+        </div>
+        <div
+          class="container mt-5 d-flex justify-content-evenly flex-row align-items-center"
+        >
+          <div class="text-center">
+            <a href="/register" class="text-muted">
+              <i class="bi bi-person-plus"></i> Create an account
+            </a>
+          </div>
+          <div class="text-center">
+            <a href="/forgot-password" class="text-muted">
+              <i class="bi bi-question-circle"></i> Forgot Password?
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  {% include "components/footer.html" %}
+</html>
