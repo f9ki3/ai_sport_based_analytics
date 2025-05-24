@@ -13,8 +13,14 @@
 }
 
 .btn-main2 {
-  border: 1px solid gray;
-  color: gray;
+  background-color: #511ccd;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border-radius: 15px;
+  display: inline-block;
+  width: fit-content;
 }
 
 .bg-secondary {

@@ -1,0 +1,121 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI-Based Sport Analytics</title>
+    {% include "components/header.html" %}
+    <style>
+      .card {
+        position: relative;
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        width: 100%; /* Ensures the card fills the column */
+        height: 100%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .card img {
+        width: 100%; /* Makes image fill the card */
+        height: 250px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .card-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%; /* Ensures overlay covers entire card */
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 1rem;
+        z-index: 1;
+        transition: background 0.3s ease-in-out;
+      }
+
+      .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        width: 100%;
+      }
+
+      .card-description {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        width: 100%;
+      }
+
+      .card:hover .card-overlay {
+        background: rgba(0, 0, 0, 0.75);
+      }
+
+      .row > div {
+        display: flex;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body class="bg-secondary">
+    {% include "components/nav_mobile.html" %}
+
+    <div class="container py-5" style="margin-bottom: 300px">
+      <h1 class="fw-bold mb-4 text-center">Learn</h1>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <!-- Card 1 -->
+        <div class="col">
+          <div class="card">
+            <img src="/static/uploads/tip1.jpg" alt="Tip 1" />
+            <div class="card-overlay">
+              <div class="card-title">Tip 1: Improve Your Stamina</div>
+              <div class="card-description">
+                Learn how to enhance your stamina with these effective exercises
+                and routines.
+              </div>
+              <a href="/tips/improve-stamina" class="btn-main2">Read More</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="col">
+          <div class="card">
+            <img src="/static/uploads/tip2.jpg" alt="Tip 2" />
+            <div class="card-overlay">
+              <div class="card-title">Tip 2: Nutrition for Athletes</div>
+              <div class="card-description">
+                Discover the best nutrition tips to fuel your body for peak
+                performance.
+              </div>
+              <a href="/tips/nutrition-for-athletes" class="btn-main2"
+                >Read More</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="col">
+          <div class="card">
+            <img src="/static/uploads/tip3.jpg" alt="Tip 3" />
+            <div class="card-overlay">
+              <div class="card-title">Tip 3: Injury Prevention</div>
+              <div class="card-description">
+                Stay safe and avoid injuries with these essential tips for
+                athletes.
+              </div>
+              <a href="/tips/injury-prevention" class="btn-main2">Read More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include "components/footer.html" %}
+  </body>
+</html>

@@ -21,5 +21,9 @@ def scan():
 def settings():
     return render_template('/pages/settings.html')
 
+@app.route('/tips')
+def tips():
+    return render_template('/pages/tips.html')
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0',debug=True)
