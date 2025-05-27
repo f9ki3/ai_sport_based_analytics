@@ -1,0 +1,117 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI-Based Sport Analytics</title>
+    {% include "components/header.html" %}
+    <style>
+      .blog-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        background: #fff;
+        border-radius: 15px;
+      }
+
+      .blog-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+      }
+
+      .blog-video {
+        width: 100%;
+        height: 190px;
+        margin-bottom: 1.5rem;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .blog-video iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      .blog-description {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+
+      .blog-tips {
+        list-style-type: decimal;
+        padding-left: 1.5rem;
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      .blog-tips li {
+        margin-bottom: 0.5rem;
+      }
+    </style>
+  </head>
+  <body class="bg-secondary">
+    {% include "components/nav_mobile.html" %}
+
+    <div class="container py-5" style="margin-bottom: 300px">
+      <div class="blog-container">
+        <h1 class="blog-title">Tip 1: Improve Your Stamina</h1>
+        <div class="blog-video">
+          <iframe
+            src="https://www.youtube.com/embed/example-video-id"
+            title="Improve Your Stamina"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div class="blog-description">
+          Learn how to enhance your stamina with these effective exercises and
+          routines. Stamina is essential for athletes and fitness enthusiasts to
+          perform at their best.
+        </div>
+        <h2>Steps to Improve Your Stamina:</h2>
+        <ul class="blog-tips">
+          <li>Start with light cardio exercises like jogging or cycling.</li>
+          <li>
+            Gradually increase the intensity and duration of your workouts.
+          </li>
+          <li>Incorporate strength training to build endurance.</li>
+          <li>Maintain a balanced diet rich in nutrients.</li>
+          <li>Stay hydrated and get enough rest for recovery.</li>
+        </ul>
+      </div>
+
+      <div class="blog-container mt-4">
+        <h1 class="blog-title">Nutrition Suggestions</h1>
+        <div class="blog-video">
+          <iframe
+            src="https://www.youtube.com/embed/example-nutrition-video-id"
+            title="Nutrition Suggestions"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div class="blog-description">
+          Proper nutrition is key to achieving your fitness goals. Follow these
+          suggestions to fuel your body and optimize performance.
+        </div>
+        <h2>Nutrition Tips:</h2>
+        <ul class="blog-tips">
+          <li>
+            Eat a balanced diet with a mix of carbohydrates, proteins, and fats.
+          </li>
+          <li>
+            Include plenty of fruits and vegetables for essential vitamins and
+            minerals.
+          </li>
+          <li>Stay hydrated by drinking enough water throughout the day.</li>
+          <li>Avoid processed foods and sugary drinks.</li>
+          <li>
+            Plan your meals and snacks to maintain consistent energy levels.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    {% include "components/footer.html" %}
+  </body>
+</html>

@@ -23,51 +23,172 @@
         <label class="text-muted fw-bolder d-block">
           Personal Information
         </label>
-        <input
-          type="text"
-          class="form-control mt-3 w-100"
-          placeholder="Fullname"
-        />
-        <input
-          type="email"
-          class="form-control w-100 mt-3"
-          placeholder="Email"
-        />
-        <button
-          class="w-100 btn btn-main mt-4 rounded rounded-4 d-flex align-items-center justify-content-center"
+        {% if message == 1 %}
+        <div
+          class="alert alert-success rounded-4 alert-dismissible fade show"
+          role="alert"
         >
-          <i class="bi bi-save me-2"></i> Save
-        </button>
+          Your changes have been saved successfully!
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% endif %}
+        <form action="/update_personal" method="POST">
+          <input
+            type="text"
+            class="form-control mt-3 w-100"
+            placeholder="Fullname"
+            value="{{ data.fullname }}"
+            name="fullname"
+          />
+          <input
+            type="email"
+            class="form-control w-100 mt-3"
+            placeholder="Email"
+            value="{{ data.email }}"
+            name="email"
+          />
+          <button
+            type="submit"
+            class="w-100 btn btn-main mt-4 rounded rounded-4 d-flex align-items-center justify-content-center"
+          >
+            <i class="bi bi-save me-2"></i> Save
+          </button>
+        </form>
       </div>
 
       <div class="bg-light rounded-4 mt-4 p-4 w-100">
         <!-- Change Password Section -->
-        <label class="text-muted fw-bolder d-block"> Change Password </label>
-        <input
-          type="password"
-          class="form-control w-100 mt-3"
-          placeholder="New Password"
-        />
-        <input
-          type="password"
-          class="form-control w-100 mt-3"
-          placeholder="Confirm Password"
-        />
-        <button
-          class="w-100 btn btn-main mt-4 rounded rounded-4 d-flex align-items-center justify-content-center"
+        {% if message == 2 %}
+        <div
+          class="alert alert-success rounded-4 alert-dismissible fade show"
+          role="alert"
         >
-          <i class="bi bi-saveh me-2"></i> Save
-        </button>
+          Your password have been saved successfully!
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% elif message == 3 %}
+        <div
+          class="alert alert-danger rounded-4 alert-dismissible fade show"
+          role="alert"
+        >
+          Passwords do not match. Please try again.
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% elif message == 4 %}
+        <div
+          class="alert alert-danger rounded-4 alert-dismissible fade show"
+          role="alert"
+        >
+          Password must be at least 8 characters long.
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% elif message == 5 %}
+        <div
+          class="alert alert-danger rounded-4 alert-dismissible fade show"
+          role="alert"
+        >
+          Fields cannot be empty. Please fill out all fields.
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% endif %}
+        <form action="/update_password" method="POST">
+          <label class="text-muted fw-bolder d-block"> Change Password </label>
+          <div class="input-group mt-3">
+            <input
+              type="password"
+              class="form-control"
+              placeholder="New Password"
+              name="new_password"
+              id="newPassword"
+            />
+            <span class="input-group-text">
+              <i
+                class="bi bi-eye"
+                id="toggleNewPasswordIcon"
+                onclick="togglePasswordVisibility('newPassword', 'toggleNewPasswordIcon')"
+                style="cursor: pointer"
+              ></i>
+            </span>
+          </div>
+          <div class="input-group mt-3">
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Confirm Password"
+              name="confirm_password"
+              id="confirmPassword"
+            />
+            <span class="input-group-text">
+              <i
+                class="bi bi-eye"
+                id="toggleConfirmPasswordIcon"
+                onclick="togglePasswordVisibility('confirmPassword', 'toggleConfirmPasswordIcon')"
+                style="cursor: pointer"
+              ></i>
+            </span>
+          </div>
+          <script>
+            function togglePasswordVisibility(inputId, iconId) {
+              const passwordInput = document.getElementById(inputId);
+              const icon = document.getElementById(iconId);
+              if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                icon.classList.remove("bi-eye");
+                icon.classList.add("bi-eye-slash");
+              } else {
+                passwordInput.type = "password";
+                icon.classList.remove("bi-eye-slash");
+                icon.classList.add("bi-eye");
+              }
+            }
+          </script>
+          <p class="mt-3 text-muted">
+            Note: Password must be at least 8 characters long and contain both
+            numbers and characters.
+          </p>
+          <button
+            type="submit"
+            class="w-100 btn btn-main mt-4 rounded rounded-4 d-flex align-items-center justify-content-center"
+          >
+            <i class="bi bi-save me-2"></i> Save
+          </button>
+        </form>
       </div>
 
       <div class="bg-light rounded-4 mt-4 p-4 w-100">
         <!-- Others Section -->
         <label class="text-muted fw-bolder d-block"> Others </label>
-        <button
+        <a
+          href="/logout"
           class="w-100 btn btn-outline-danger mt-4 rounded rounded-4 d-flex align-items-center justify-content-center text-danger border-danger"
         >
           <i class="bi bi-box-arrow-right me-2"></i> Logout
-        </button>
+        </a>
       </div>
     </div>
 
