@@ -1,9 +1,20 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>AI-Based Sport Analytics</title>
     {% include "components/header.html" %}
+
+    <!-- Bootstrap Icons CSS for bi icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
+      integrity="sha512-..."
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
     <style>
       .container {
         display: flex;
@@ -12,16 +23,16 @@
         flex-direction: column;
         min-height: 100vh;
         text-align: center;
-        cursor: pointer;
       }
       .upload-container {
         border: 2px dashed #ccc;
         border-radius: 10px;
-        padding: 20px;
+        padding: 30px;
         text-align: center;
-        margin: 20px auto;
-        width: 100%;
         background-color: #f9f9f9;
+        cursor: pointer;
+        transition: 0.3s ease;
+        user-select: none;
       }
       .upload-container.dragover {
         border-color: #007bff;
@@ -30,57 +41,136 @@
       .hidden-input {
         display: none;
       }
-      .analyze-btn:hover {
-        background-color: #0056b3;
+      .analyze-btn {
+        background-color: #511ccd;
+        color: white;
+        padding: 10px 20px;
+        font-size: 1.1rem;
+        border: none;
+        border-radius: 12px;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+      }
+      .analyze-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      .analyze-btn:hover:not(:disabled) {
+        background-color: #3d0eb8;
       }
       .video-preview {
         margin-top: 20px;
         max-width: 100%;
-        border: 1px solid #ccc;
+        border: 10px solid #511ccd;
         border-radius: 10px;
+        display: none;
+      }
+      /* Make upload icon pointer cursor too */
+      .bi-upload {
+        cursor: pointer;
       }
     </style>
   </head>
   <body>
     {% include "components/nav_mobile.html" %}
 
-    <div
-      class="container d-flex justify-content-center align-items-center flex-column"
-    >
-      <h1 class="text-end fw-bolder">Scan Video</h1>
-      <div class="upload-container" id="upload-container">
-        <i
-          class="bi bi-upload"
-          style="font-size: 2rem; margin-bottom: 50px"
-        ></i>
-        <p>Drag and drop your video file here, or click to select a file.</p>
-        <p>Supported formats: MP4, AVI, MOV</p>
-        <input
-          type="file"
-          id="file-input"
-          class="hidden-input"
-          accept="video/*"
-        />
+    <div class="container">
+      <h1 class="fw-bold mb-4">Scan Video</h1>
+      <div
+        id="loading-message"
+        style="
+          display: none;
+          text-align: center;
+          border: 5px dashed #511ccd;
+          border-radius: 10px;
+          padding: 20px;
+          margin-top: 20px;
+          height: 300px;
+          width: 100%;
+          background-color: #f8f9fa;
+        "
+      >
+        <div
+          class="spinner-border"
+          role="status"
+          style="width: 5rem; height: 5rem; color: #511ccd"
+        >
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3">Analyzing video please wait...</p>
       </div>
-      <video
-        id="video-preview"
-        class="video-preview mb-5"
-        ,nm
-        controls
-        style="display: none; border: 10px solid #511ccd"
-      ></video>
-      <button id="analyze-btn" class="btn mt-2 mb-5 rounded-4 bg-main" disabled>
-        <i class="bi bi-play-circle"></i> Start Analyze
-      </button>
+      <form
+        action="/process_video"
+        method="POST"
+        enctype="multipart/form-data"
+        id="video-form"
+      >
+        <div
+          class="upload-container"
+          id="upload-container"
+          aria-label="Video upload area, click or drag and drop video file"
+          role="button"
+          tabindex="0"
+        >
+          <i
+            class="bi bi-upload"
+            style="font-size: 2rem; margin-bottom: 20px"
+          ></i>
+          <p>
+            <strong>Drag and drop</strong> your video here or click to select a
+            file
+          </p>
+          <p class="text-muted">Supported formats: MP4, AVI, MOV</p>
+          <input
+            type="file"
+            name="video"
+            id="file-input"
+            class="hidden-input"
+            accept="video/mp4,video/quicktime,video/x-msvideo"
+          />
+        </div>
+
+        <video id="video-preview" class="video-preview" controls></video>
+
+        <button
+          type="submit"
+          id="analyze-btn"
+          class="analyze-btn mt-4 mb-5"
+          disabled
+        >
+          <i class="bi bi-play-circle"></i> Start Analyze
+        </button>
+
+        <a
+          href="/scan"
+          type="submit"
+          id="cancel"
+          class="btn btn-lg rounded-4 btn-danger mt-4 mb-5 d-none"
+        >
+          Cancel
+        </a>
+      </form>
     </div>
 
     <script>
       const uploadContainer = document.getElementById("upload-container");
+      const cancel = document.getElementById("cancel");
       const fileInput = document.getElementById("file-input");
       const analyzeBtn = document.getElementById("analyze-btn");
       const videoPreview = document.getElementById("video-preview");
+      const videoForm = document.getElementById("video-form");
+      const loadingMessage = document.getElementById("loading-message");
+
+      let currentFileURL = null;
 
       uploadContainer.addEventListener("click", () => fileInput.click());
+
+      uploadContainer.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          fileInput.click();
+        }
+      });
 
       uploadContainer.addEventListener("dragover", (e) => {
         e.preventDefault();
@@ -106,14 +196,43 @@
       function handleFile(file) {
         if (file && file.type.startsWith("video/")) {
           analyzeBtn.disabled = false;
-          const fileURL = URL.createObjectURL(file);
-          videoPreview.src = fileURL;
+
+          if (currentFileURL) {
+            URL.revokeObjectURL(currentFileURL);
+          }
+
+          currentFileURL = URL.createObjectURL(file);
+          videoPreview.src = currentFileURL;
           videoPreview.style.display = "block";
-          alert(`File "${file.name}" is ready for analysis.`);
         } else {
-          alert("Please upload a valid video file.");
+          alert("Please upload a valid video file (MP4, AVI, MOV).");
+          analyzeBtn.disabled = true;
+          videoPreview.style.display = "none";
+          if (currentFileURL) {
+            URL.revokeObjectURL(currentFileURL);
+            currentFileURL = null;
+          }
         }
       }
+
+      videoForm.addEventListener("submit", function (e) {
+        // Comment this out if you want to actually submit the form.
+        // e.preventDefault();
+
+        // Hide upload and preview
+        uploadContainer.style.display = "none";
+        videoPreview.style.display = "none";
+        // Show loader and message
+        loadingMessage.style.display = "flex";
+        loadingMessage.style.justifyContent = "center";
+        loadingMessage.style.alignItems = "center";
+        loadingMessage.style.flexDirection = "column";
+
+        cancel.classList.remove("d-none");
+
+        // Hide analyze button
+        analyzeBtn.style.display = "none";
+      });
     </script>
 
     {% include "components/footer.html" %}
