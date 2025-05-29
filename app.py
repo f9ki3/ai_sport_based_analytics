@@ -178,7 +178,13 @@ def process_video():
 
         # Return stats and URL to saved processed video
         video_url = f"/static/save/{output_filename}"
-        return jsonify({"stats": final_stats, "processed_video_url": video_url})
+        Performance.insertPerformance(
+            video_url,
+            json.dumps(final_stats),  # Convert final_stats to a JSON string
+            session.get("user_id")
+        )
+        data = {"stats": final_stats, "processed_video_url": video_url}
+        return render_template('/pages/results.html', data=data)
 
     except Exception as e:
         if os.path.exists(input_path):

@@ -55,61 +55,321 @@
     {% include "components/nav_mobile.html" %}
 
     <div class="container py-5" style="margin-bottom: 300px">
+      {% if request.args.get('id') == '1' %}
       <div class="blog-container">
-        <h1 class="blog-title">Tip 1: Improve Your Stamina</h1>
+        <h1 class="blog-title">Tip 1: Improve Your Footwork</h1>
         <div class="blog-video">
           <iframe
-            src="https://www.youtube.com/embed/example-video-id"
-            title="Improve Your Stamina"
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/S6BumK0A5TM?si=kEBFUmZZrU3ZMXpx"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
             allowfullscreen
           ></iframe>
         </div>
         <div class="blog-description">
-          Learn how to enhance your stamina with these effective exercises and
-          routines. Stamina is essential for athletes and fitness enthusiasts to
+          Footwork is crucial for badminton players to move efficiently and
+          maintain balance during gameplay. Mastering footwork enhances agility,
+          speed, and recovery.
+        </div>
+        <h2>Steps to Improve Your Footwork:</h2>
+        <ul class="blog-tips">
+          <li>
+            Practice agility drills like ladder exercises and cone drills.
+          </li>
+          <li>
+            Focus on maintaining proper posture and balance during movement.
+          </li>
+          <li>Incorporate plyometric exercises to boost explosive power.</li>
+          <li>
+            Train regularly to develop muscle memory for quick foot movements.
+          </li>
+          <li>
+            Wear appropriate footwear to support your training and prevent
+            injuries.
+          </li>
+        </ul>
+        <h2>Nutrition Recommendation:</h2>
+        <div class="nutrition-section">
+          <img
+            src="/static/uploads/s1.jpg"
+            alt="Nutrition for Footwork"
+            style="width: 100%; border-radius: 10px; margin-bottom: 1rem"
+          />
+          <ul class="blog-tips">
+            <li>
+              Consume foods rich in complex carbohydrates for sustained energy
+              during footwork drills.
+            </li>
+            <li>
+              Include lean proteins to support muscle recovery and growth.
+            </li>
+            <li>Stay hydrated to maintain focus and prevent fatigue.</li>
+          </ul>
+        </div>
+      </div>
+      {% elif request.args.get('id') == '2' %}
+      <div class="blog-container">
+        <h1 class="blog-title">Tip 2: Enhance Shot Accuracy</h1>
+        <div class="blog-video">
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/OMyQaFio_sc?si=3sba7-SMeUpql1Qo"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div class="blog-description">
+          Accurate shots are essential for winning points in badminton.
+          Improving shot precision helps you control the game and outmaneuver
+          your opponent.
+        </div>
+        <h2>Steps to Enhance Shot Accuracy:</h2>
+        <ul class="blog-tips">
+          <li>Focus on proper grip and racket handling techniques.</li>
+          <li>Practice targeting specific areas of the court during drills.</li>
+          <li>Work on timing and coordination for consistent shots.</li>
+          <li>
+            Analyze your opponent's weaknesses to place shots strategically.
+          </li>
+          <li>Regularly train with a coach to refine your technique.</li>
+        </ul>
+        <h2>Nutrition Recommendation:</h2>
+        <div class="nutrition-section">
+          <img
+            src="/static/uploads/s2.jpg"
+            alt="Nutrition for Shot Accuracy"
+            style="width: 100%; border-radius: 10px; margin-bottom: 1rem"
+          />
+          <ul class="blog-tips">
+            <li>
+              Consume omega-3 fatty acids to support brain function and focus.
+            </li>
+            <li>Include antioxidant-rich foods to reduce muscle fatigue.</li>
+            <li>
+              Maintain hydration to improve concentration during practice.
+            </li>
+          </ul>
+        </div>
+      </div>
+      {% elif request.args.get('id') == '3' %}
+      <div class="blog-container">
+        <h1 class="blog-title">Tip 3: Develop Tactical Awareness</h1>
+        <div class="blog-video">
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/SPMCWax1mt4?si=sSPB4pzhvnsQ8kvz"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div class="blog-description">
+          Tactical awareness allows badminton players to anticipate their
+          opponent's moves and adapt their strategy effectively during matches.
+        </div>
+        <h2>Steps to Develop Tactical Awareness:</h2>
+        <ul class="blog-tips">
+          <li>Study your opponent's playing style and patterns.</li>
+          <li>Learn to vary your shots to keep your opponent guessing.</li>
+          <li>Focus on positioning and court coverage during gameplay.</li>
+          <li>Analyze match footage to identify areas for improvement.</li>
+          <li>Work on mental preparation to stay focused and adaptable.</li>
+        </ul>
+        <h2>Nutrition Recommendation:</h2>
+        <div class="nutrition-section">
+          <img
+            src="/static/uploads/s3.jpg"
+            alt="Nutrition for Tactical Awareness"
+            style="width: 100%; border-radius: 10px; margin-bottom: 1rem"
+          />
+          <ul class="blog-tips">
+            <li>
+              Consume foods rich in healthy fats to support cognitive function.
+            </li>
+            <li>
+              Include complex carbohydrates for sustained energy during matches.
+            </li>
+            <li>Stay hydrated to maintain mental clarity and focus.</li>
+          </ul>
+        </div>
+      </div>
+      {% elif request.args.get('id') == '4' %}
+      <div class="blog-container">
+        <h1 class="blog-title">Tip 4: Build Physical Fitness</h1>
+        <div class="blog-video">
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/F7OhhGe107Q?si=TPcamaV35UCjgDMV"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div class="blog-description">
+          Physical fitness is the foundation for excelling in badminton. It
+          enhances endurance, strength, and flexibility, enabling players to
           perform at their best.
         </div>
-        <h2>Steps to Improve Your Stamina:</h2>
+        <h2>Steps to Build Physical Fitness:</h2>
         <ul class="blog-tips">
-          <li>Start with light cardio exercises like jogging or cycling.</li>
+          <li>Incorporate cardio exercises like running or cycling.</li>
+          <li>Perform strength training to improve muscle power.</li>
+          <li>Practice stretching routines to enhance flexibility.</li>
           <li>
-            Gradually increase the intensity and duration of your workouts.
+            Engage in regular physical activity to maintain overall fitness.
           </li>
-          <li>Incorporate strength training to build endurance.</li>
-          <li>Maintain a balanced diet rich in nutrients.</li>
-          <li>Stay hydrated and get enough rest for recovery.</li>
         </ul>
+        <h2>Nutrition Recommendation:</h2>
+        <div class="nutrition-section">
+          <img
+            src="/static/uploads/s4.jpg"
+            alt="Nutrition for Physical Fitness"
+            style="width: 100%; border-radius: 10px; margin-bottom: 1rem"
+          />
+          <ul class="blog-tips">
+            <li>
+              Consume protein-rich foods to support muscle recovery and growth.
+            </li>
+            <li>
+              Include complex carbohydrates for sustained energy during
+              workouts.
+            </li>
+            <li>Stay hydrated to maintain endurance and prevent fatigue.</li>
+          </ul>
+        </div>
       </div>
-
-      <div class="blog-container mt-4">
-        <h1 class="blog-title">Nutrition Suggestions</h1>
+      {% elif request.args.get('id') == '5' %}
+      <div class="blog-container">
+        <h1 class="blog-title">Tip 5: Master Mental Toughness</h1>
         <div class="blog-video">
           <iframe
-            src="https://www.youtube.com/embed/example-nutrition-video-id"
-            title="Nutrition Suggestions"
-            allowfullscreen
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/R3AIA62Q0F8?si=f5XGawXn7uoQvhTY"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
           ></iframe>
         </div>
         <div class="blog-description">
-          Proper nutrition is key to achieving your fitness goals. Follow these
-          suggestions to fuel your body and optimize performance.
+          Mental toughness is key to staying focused and resilient during
+          challenging matches. It helps players maintain composure and perform
+          under pressure.
         </div>
-        <h2>Nutrition Tips:</h2>
+        <h2>Steps to Master Mental Toughness:</h2>
         <ul class="blog-tips">
-          <li>
-            Eat a balanced diet with a mix of carbohydrates, proteins, and fats.
-          </li>
-          <li>
-            Include plenty of fruits and vegetables for essential vitamins and
-            minerals.
-          </li>
-          <li>Stay hydrated by drinking enough water throughout the day.</li>
-          <li>Avoid processed foods and sugary drinks.</li>
-          <li>
-            Plan your meals and snacks to maintain consistent energy levels.
-          </li>
+          <li>Practice mindfulness and meditation to improve focus.</li>
+          <li>Set realistic goals and track your progress.</li>
+          <li>Learn to manage stress and stay calm under pressure.</li>
+          <li>Visualize success to boost confidence before matches.</li>
+          <li>Seek guidance from a sports psychologist if needed.</li>
         </ul>
+        <h2>Nutrition Recommendation:</h2>
+        <div class="nutrition-section">
+          <img
+        src="/static/uploads/s5.jpg"
+        alt="Nutrition for Mental Toughness"
+        style="width: 100%; border-radius: 10px; margin-bottom: 1rem"
+          />
+          <ul class="blog-tips">
+        <li>
+          Consume foods rich in magnesium to reduce stress and improve mood.
+        </li>
+        <li>
+          Include vitamin B-rich foods to support brain function and energy.
+        </li>
+        <li>Stay hydrated to maintain mental clarity and focus.</li>
+          </ul>
+        </div>
       </div>
+      {% elif request.args.get('id') == '6' %}
+      <div class="blog-container">
+        <h1 class="blog-title">Tip 6: Develop Interpersonal Skills</h1>
+        <div class="blog-video">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/EwvEj8dKiec?si=DNC-uPi6gRA092TX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div class="blog-description">
+          Strong interpersonal skills help players communicate effectively with
+          teammates, coaches, and opponents, fostering teamwork and sportsmanship.
+        </div>
+        <h2>Steps to Develop Interpersonal Skills:</h2>
+        <ul class="blog-tips">
+          <li>Practice active listening during team discussions.</li>
+          <li>Learn to give and receive constructive feedback.</li>
+          <li>Build trust and rapport with teammates through collaboration.</li>
+          <li>Maintain a positive attitude and encourage others.</li>
+          <li>Participate in team-building activities to strengthen relationships.</li>
+        </ul>
+        <h2>Nutrition Recommendation:</h2>
+        <div class="nutrition-section">
+          <img
+        src="/static/uploads/s6.jpg"
+        alt="Nutrition for Interpersonal Skills"
+        style="width: 100%; border-radius: 10px; margin-bottom: 1rem"
+          />
+          <ul class="blog-tips">
+        <li>
+          Consume foods rich in omega-3 fatty acids to support emotional well-being.
+        </li>
+        <li>
+          Include foods high in vitamin D to boost mood and energy levels.
+        </li>
+        <li>Stay hydrated to maintain focus and communication clarity.</li>
+          </ul>
+        </div>
+      </div>
+      {% elif request.args.get('id') == '7' %}
+      <div class="blog-container">
+        <h1 class="blog-title">Tip 7: Embrace Continuous Learning</h1>
+        <div class="blog-video">
+         <iframe width="560" height="315" src="https://www.youtube.com/embed/RnR_uz7RHHk?si=5txnevO4QzBZJfLb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div class="blog-description">
+          Continuous learning ensures players stay updated with the latest
+          techniques, strategies, and advancements in badminton.
+        </div>
+        <h2>Steps to Embrace Continuous Learning:</h2>
+        <ul class="blog-tips">
+          <li>Attend workshops and training sessions regularly.</li>
+          <li>Watch professional matches to learn from top players.</li>
+          <li>Read books and articles on badminton techniques and strategies.</li>
+          <li>Experiment with new drills and exercises to improve skills.</li>
+          <li>Seek feedback from coaches and peers to identify areas for growth.</li>
+        </ul>
+        <h2>Nutrition Recommendation:</h2>
+        <div class="nutrition-section">
+          <img
+        src="/static/uploads/s7.jpg"
+        alt="Nutrition for Continuous Learning"
+        style="width: 100%; border-radius: 10px; margin-bottom: 1rem"
+          />
+          <ul class="blog-tips">
+        <li>
+          Consume foods rich in antioxidants to support brain health and memory.
+        </li>
+        <li>
+          Include complex carbohydrates for sustained energy during learning sessions.
+        </li>
+        <li>Stay hydrated to maintain focus and cognitive performance.</li>
+          </ul>
+        </div>
+      </div>
+      {% endif %}</div>
     </div>
 
     {% include "components/footer.html" %}

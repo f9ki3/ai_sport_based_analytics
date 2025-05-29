@@ -1,5 +1,6 @@
 from connection import *
 import hashlib
+from datetime import datetime
 
 class Users():
     def createTableUsers():
@@ -78,9 +79,58 @@ class Users():
             ''', (hashed_password, id))
             print("Password updated successfully.")
 
+class Performance():
+    def createTablePerformance():
+        with Connection() as cursor:
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS performance (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    processed_video_url TEXT NOT NULL,
+                    stats TEXT NOT NULL,
+                    user_id INTEGER NOT NULL,
+                    date TEXT NOT NULL,
+                    FOREIGN KEY (user_id) REFERENCES users (id)
+                )
+            ''')
+            print("Performance table created successfully.")
+    
+    def insertPerformance(processed_video_url, stats, user_id):
+        date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        with Connection() as cursor:
+            cursor.execute('''
+                INSERT INTO performance (processed_video_url, stats, user_id, date)
+                VALUES (?, ?, ?, ?)
+            ''', (processed_video_url, stats, user_id, date))
+            print("Performance inserted successfully.")
+    
+    def deletePerformance(id):
+        with Connection() as cursor:
+            cursor.execute('''
+                DELETE FROM performance
+                WHERE id = ?
+            ''', (id,))
+            print("Performance deleted successfully.")
+
+    def getPerformanceByUserId(user_id):    
+        with Connection() as cursor:
+            cursor.execute('''
+                SELECT * FROM performance
+                WHERE user_id = ?
+            ''', (user_id,))
+            performances = cursor.fetchall()
+            return [{
+                "id": perf[0],
+                "processed_video_url": perf[1],
+                "stats": perf[2],
+                "user_id": perf[3],
+                "date": perf[4]
+            } for perf in performances]
+            print("Performance retrieved successfully.")
+    
 
 
 
 
 if __name__ == "__main__":
     Users.createTableUsers()
+    Performance.createTablePerformance()
