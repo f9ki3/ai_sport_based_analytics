@@ -12,7 +12,15 @@
   </head>
   <body class="bg-secondary">
     {% include "components/nav_mobile.html" %}
-
+    <style>
+      @media (min-width: 992px) {
+        /* laptop and above */
+        .container {
+          width: 50% !important;
+          max-width: 50% !important;
+        }
+      }
+    </style>
     <div
       style="margin-bottom: 300px"
       class="container d-flex justify-content-center align-items-center flex-column"

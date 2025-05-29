@@ -1,6 +1,8 @@
 from connection import *
 import hashlib
 from datetime import datetime
+import json
+from collections import defaultdict
 
 class Users():
     def createTableUsers():
@@ -126,11 +128,78 @@ class Performance():
                 "date": perf[4]
             } for perf in performances]
             print("Performance retrieved successfully.")
-    
+
+    def getPerformanceById(id):    
+        with Connection() as cursor:
+            cursor.execute('''
+                SELECT * FROM performance
+                WHERE id = ?
+            ''', (id,))
+            perf = cursor.fetchone()
+
+            if perf is None:
+                # Return default structure if nothing is found
+                return {
+                    "processed_video_url": None,
+                    "stats": {}
+                }
+
+            try:
+                stats_dict = json.loads(perf[2]) if perf[2] else {}
+            except json.JSONDecodeError:
+                stats_dict = {}
+
+            return {
+                "processed_video_url": perf[1],
+                "stats": stats_dict
+            }
+
+    def getPerformandashboard(user_id):
+        with Connection() as cursor:
+            cursor.execute('''
+                SELECT stats, user_id, date
+                FROM performance
+                WHERE user_id = ?
+            ''', (user_id,))
+            performances = cursor.fetchall()
+
+        data_by_date = defaultdict(lambda: {"player1_sum": 0, "player1_count": 0, "player2_sum": 0, "player2_count": 0})
+
+        for stats_json, _, date in performances:
+            stats = json.loads(stats_json) if stats_json else {}
+
+            p1_strength = stats.get("Player_1", {}).get("average_smash_strength")
+            p2_strength = stats.get("Player_2", {}).get("average_smash_strength")
+
+            if p1_strength is not None:
+                data_by_date[date]["player1_sum"] += p1_strength
+                data_by_date[date]["player1_count"] += 1
+
+            if p2_strength is not None:
+                data_by_date[date]["player2_sum"] += p2_strength
+                data_by_date[date]["player2_count"] += 1
 
 
+        # Build the response dictionary
+        response = {
+            "dates": [],
+            "player1": [],
+            "player2": []
+        }
 
+        for date in sorted(data_by_date.keys()):
+            response["dates"].append(date)
+            p1_data = data_by_date[date]
+            p1_avg = (p1_data["player1_sum"] / p1_data["player1_count"]) if p1_data["player1_count"] > 0 else None
+            response["player1"].append(p1_avg)
+
+            p2_avg = (p1_data["player2_sum"] / p1_data["player2_count"]) if p1_data["player2_count"] > 0 else None
+            response["player2"].append(p2_avg)
+
+        return response
 
 if __name__ == "__main__":
-    Users.createTableUsers()
-    Performance.createTablePerformance()
+    # Users.createTableUsers()
+    # Performance.createTablePerformance()
+    data = Performance.getPerformandashboard(1)
+    print(data)

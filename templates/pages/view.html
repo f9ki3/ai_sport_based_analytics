@@ -1,0 +1,416 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI-Based Sport Analytics</title>
+    {% include "components/header.html" %}
+    <style>
+      .container {
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body class="bg-secondary">
+    {% include "components/nav_mobile.html" %}
+<style>
+     @media (min-width: 992px) {
+        /* laptop and above */
+        .container {
+          width: 50%;
+          max-width: 50%;
+        }
+      }
+
+</style>
+    <div
+      style="margin-bottom: 300px"
+      class="container d-flex justify-content-center align-items-center flex-column"
+    >
+    <input type="hidden" id="analytics-data" value='{{ data | tojson }}'>
+    <div class="bg-light mt-3 rounded-4 p-4 w-100">
+        <div class="mt-4">
+          <h2 class="text-start fw-bold">Player 1 Performance</h2>
+          <hr />
+          <div class="row">
+            <div class="col-6">
+              <div id="chart-container-player1" class="w-100 mb-4">
+          <!-- ApexCharts for Player 1 Smash Strength will render here -->
+              </div>
+            </div>
+            <div class="col-6">
+              <p class="text-muted">Average Smash</p>
+              <h1 class="fw-bolder player1-smash-avg"></h1>
+              <p class="text-muted">Maximum Smash</p>
+              <h1 class="fw-bolder player1-smash-max"></h1>
+            </div>
+            <div class="col-6">
+              <div id="chart-container-player1-footwork" class="w-100">
+          <!-- ApexCharts for Player 1 Footwork will render here -->
+              </div>
+            </div>
+            <div class="col-6">
+              <p>Average Foot Speed</p>
+              <h1 class="fw-bolder player1-foot-avg"></h1>
+              <p>Maximum Foot Speed</p>
+              <h1 class="fw-bolder player1-foot-max"></h1>
+            </div>
+          </div>
+         
+        </div>
+         <div>
+            <hr>
+            <h3>Summary</h3>
+            <div style="text-align: justify;">
+              <p class="text-muted" style="font-size: 12px;">Player 1 has shown exceptional performance with an average smash strength of <span class="player1-smash-avg"></span> m/s and a maximum smash strength of <span class="player1-smash-max"></span> m/s. Their footwork speed averages at <span class="player1-foot-avg"></span> m/s, with a maximum speed of <span class="player1-foot-max"></span> m/s.</p>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Level</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-size: 12px;">Smash</td>
+                  <td style="font-size: 12px;" id="player1-smash-level"></td>
+                  <td style="font-size: 12px;" id="player1-smash-description"></td>
+                </tr>
+                <tr>
+                  <td style="font-size: 12px;">Footwork</td>
+                  <td style="font-size: 12px;" id="player1-footwork-level"></td>
+                  <td style="font-size: 12px;" id="player1-footwork-description"></td>
+                </tr>
+              </tbody>
+            </table>
+            <h3>Area of Improvement</h3>
+            <p style="font-size: 12px;" class="text-muted">This are the recommendation that can learn to improve performance.</p>
+          </div>
+          <div id="area_of_improvements">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Tips</th>
+                  <th>Recommendation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            <td style="font-size: 12px;" id="player1-smash-tips"></td>
+            <td style="font-size: 12px;" id="player1-smash-recommendation"></td>
+                </tr>
+                <tr>
+            <td style="font-size: 12px;" id="player1-footwork-tips"></td>
+            <td style="font-size: 12px;" id="player1-footwork-recommendation"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const analyticsData = JSON.parse(document.getElementById("analytics-data").value);
+              const stats = analyticsData.stats.Player_1;
+
+              function determineSmashLevel(value) {
+                if (value < 5) return { level: "⚪ Very Low", description: "Beginner level, lacks power or technique" };
+                if (value < 8) return { level: "🟡 Low", description: "Recreational play, moderate effort" };
+                if (value < 12) return { level: "🟠 Moderate", description: "Intermediate level, improving power" };
+                if (value < 16) return { level: "🔵 Strong", description: "Advanced or competitive level smashes" };
+                if (value < 20) return { level: "🟣 Very Strong", description: "Professional-level smash speed" };
+                return { level: "🔴 Elite/World-Class", description: "Seen in international/pro-level matches" };
+              }
+
+              function determineFootworkLevel(value) {
+                if (value < 0.5) return { level: "⚪ Very Low", description: "Minimal movement, delayed reaction" };
+                if (value < 1.0) return { level: "🟡 Low", description: "Slow recovery, needs improvement" };
+                if (value < 1.5) return { level: "🟠 Moderate", description: "Average club/recreational play" };
+                if (value < 2.0) return { level: "🔵 Fast", description: "Competitive level, efficient directional changes" };
+                if (value < 3.0) return { level: "🟣 Very Fast", description: "Advanced/professional footwork" };
+                return { level: "🔴 Elite", description: "Exceptional speed, top-level agility" };
+              }
+
+              function getRecommendation(level, type) {
+                if (level === "⚪ Very Low" || level === "🟡 Low") {
+            return { title: type === "Smash" ? "Shot Accuracy & Variety" : "Improve Footwork", link: "/view_tips?id=1" };
+                } else if (["🟠 Moderate", "🔵 Strong", "🔴 Elite/World-Class"].includes(level)) {
+            return { title: "Tactical Awareness & Mental Strength", link: type === "Smash" ? "/view_tips?id=3" : "/view_tips?id=7" };
+                }
+                return null;
+              }
+
+              const smashLevel = determineSmashLevel(stats.average_smash_strength);
+              const footworkLevel = determineFootworkLevel(stats.average_footwork / 15);
+
+              const smashRecommendation = getRecommendation(smashLevel.level, "Smash");
+              const footworkRecommendation = getRecommendation(footworkLevel.level, "Footwork");
+
+              document.getElementById("player1-smash-level").textContent = smashLevel.level;
+              document.getElementById("player1-smash-description").textContent = smashLevel.description;
+              document.getElementById("player1-smash-tips").textContent = smashRecommendation.title;
+              document.getElementById("player1-smash-recommendation").innerHTML = `<a href="${smashRecommendation.link}">${smashRecommendation.title}</a>`;
+
+              document.getElementById("player1-footwork-level").textContent = footworkLevel.level;
+              document.getElementById("player1-footwork-description").textContent = footworkLevel.description;
+              document.getElementById("player1-footwork-tips").textContent = footworkRecommendation.title;
+              document.getElementById("player1-footwork-recommendation").innerHTML = `<a href="${footworkRecommendation.link}">${footworkRecommendation.title}</a>`;
+            });
+          </script>
+      </div>
+      <div class="bg-light mt-3 rounded-4 p-4 w-100">
+        <div class="mt-4">
+          <h2 class="text-center fw-bold">Player 2 Performance</h2>
+          <hr />
+          <div class="row">
+            <div class="col-6">
+              <div id="chart-container-player2" class="w-100 mb-4">
+                <!-- ApexCharts for Player 2 Smash Strength will render here -->
+              </div>
+            </div>
+            <div class="col-6">
+              <p class="text-muted">Average Smash</p>
+              <h1 class="fw-bolder player2-smash-avg"></h1>
+              <p class="text-muted">Maximum Smash</p>
+             <h1 class="fw-bolder player2-smash-max"></h1>
+            </div>
+            <div class="col-6">
+              <div id="chart-container-player2-footwork" class="w-100">
+                <!-- ApexCharts for Player 2 Footwork will render here -->
+              </div>
+            </div>
+            <div class="col-6">
+              <p>Average Foot Speed</p>
+              <h1 class="fw-bolder player2-foot-avg"></h1>
+              <p>Maximum Foot Speed</p>
+              <h1 class="fw-bolder player2-foot-max"></h1>
+            </div>
+          </div>
+          
+        </div>
+            <div>
+            <hr>
+            <h3>Summary</h3>
+            <div style="text-align: justify;">
+              <p class="text-muted" style="font-size: 12px;">Player 2 has shown exceptional performance with an average smash strength of <span class="player2-smash-avg"></span> m/s and a maximum smash strength of <span class="player2-smash-max"></span> m/s. Their footwork speed averages at <span class="player2-foot-avg"></span> m/s, with a maximum speed of <span class="player2-foot-max"></span> m/s.</p>
+            </div>
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Type</th>
+                <th>Level</th>
+                <th>Description</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td style="font-size: 12px;">Smash</td>
+                <td style="font-size: 12px;" id="player2-smash-level"></td>
+                <td style="font-size: 12px;" id="player2-smash-description"></td>
+              </tr>
+              <tr>
+                <td style="font-size: 12px;">Footwork</td>
+                <td style="font-size: 12px;" id="player2-footwork-level"></td>
+                <td style="font-size: 12px;" id="player2-footwork-description"></td>
+              </tr>
+              </tbody>
+            </table>
+            <h3>Area of Improvement</h3>
+            <p style="font-size: 12px;" class="text-muted">These are the recommendations that can help improve performance.</p>
+            </div>
+            <div id="area_of_improvements_player2">
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Tips</th>
+                <th>Recommendation</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td style="font-size: 12px;" id="player2-smash-tips"></td>
+                <td style="font-size: 12px;" id="player2-smash-recommendation"></td>
+              </tr>
+              <tr>
+                <td style="font-size: 12px;" id="player2-footwork-tips"></td>
+                <td style="font-size: 12px;" id="player2-footwork-recommendation"></td>
+              </tr>
+              </tbody>
+            </table>
+            </div>
+            <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const analyticsData = JSON.parse(document.getElementById("analytics-data").value);
+              const stats = analyticsData.stats.Player_2;
+
+              function determineSmashLevel(value) {
+              if (value < 5) return { level: "⚪ Very Low", description: "Beginner level, lacks power or technique" };
+              if (value < 8) return { level: "🟡 Low", description: "Recreational play, moderate effort" };
+              if (value < 12) return { level: "🟠 Moderate", description: "Intermediate level, improving power" };
+              if (value < 16) return { level: "🔵 Strong", description: "Advanced or competitive level smashes" };
+              if (value < 20) return { level: "🟣 Very Strong", description: "Professional-level smash speed" };
+              return { level: "🔴 Elite/World-Class", description: "Seen in international/pro-level matches" };
+              }
+
+              function determineFootworkLevel(value) {
+              if (value < 0.5) return { level: "⚪ Very Low", description: "Minimal movement, delayed reaction" };
+              if (value < 1.0) return { level: "🟡 Low", description: "Slow recovery, needs improvement" };
+              if (value < 1.5) return { level: "🟠 Moderate", description: "Average club/recreational play" };
+              if (value < 2.0) return { level: "🔵 Fast", description: "Competitive level, efficient directional changes" };
+              if (value < 3.0) return { level: "🟣 Very Fast", description: "Advanced/professional footwork" };
+              return { level: "🔴 Elite", description: "Exceptional speed, top-level agility" };
+              }
+
+              function getRecommendation(level, type) {
+              if (level === "⚪ Very Low" || level === "🟡 Low") {
+                return { title: type === "Smash" ? "Shot Accuracy & Variety" : "Improve Footwork", link: "/view_tips?id=1" };
+              } else if (["🟠 Moderate", "🔵 Strong", "🔴 Elite/World-Class"].includes(level)) {
+                return { title: "Tactical Awareness & Mental Strength", link: type === "Smash" ? "/view_tips?id=3" : "/view_tips?id=7" };
+              }
+              return null;
+              }
+
+              const smashLevel = determineSmashLevel(stats.average_smash_strength);
+              const footworkLevel = determineFootworkLevel(stats.average_footwork / 15);
+
+              const smashRecommendation = getRecommendation(smashLevel.level, "Smash");
+              const footworkRecommendation = getRecommendation(footworkLevel.level, "Footwork");
+
+              document.getElementById("player2-smash-level").textContent = smashLevel.level;
+              document.getElementById("player2-smash-description").textContent = smashLevel.description;
+              document.getElementById("player2-smash-tips").textContent = smashRecommendation.title;
+              document.getElementById("player2-smash-recommendation").innerHTML = `<a href="${smashRecommendation.link}">${smashRecommendation.title}</a>`;
+
+              document.getElementById("player2-footwork-level").textContent = footworkLevel.level;
+              document.getElementById("player2-footwork-description").textContent = footworkLevel.description;
+              document.getElementById("player2-footwork-tips").textContent = footworkRecommendation.title;
+              document.getElementById("player2-footwork-recommendation").innerHTML = `<a href="${footworkRecommendation.link}">${footworkRecommendation.title}</a>`;
+            });
+            </script>
+      </div>
+     <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const analyticsData = JSON.parse(document.getElementById("analytics-data").value);
+        const stats = analyticsData.stats;
+        const processed_video_url = analyticsData.processed_video_url;
+
+        function calculateMaxStrength(average, percentage) {
+          return (average / (percentage / 100)).toFixed(2); // max = avg / (avg% / 100)
+        }
+
+        // Player 1
+        const p1 = stats.Player_1;
+        const p1FootworkMaxRaw = calculateMaxStrength(p1.average_footwork, p1.average_footwork_percentage);
+        const p1SmashMax = calculateMaxStrength(p1.average_smash_strength, p1.average_smash_strength_percentage);
+
+        // Player 2
+        const p2 = stats.Player_2;
+        const p2FootworkMaxRaw = calculateMaxStrength(p2.average_footwork, p2.average_footwork_percentage);
+        const p2SmashMax = calculateMaxStrength(p2.average_smash_strength, p2.average_smash_strength_percentage);
+
+        // Convert footwork averages and max values to ratio by dividing by 15
+        const p1FootworkAvgRatio = (p1.average_footwork / 15).toFixed(2);
+        const p1FootworkMaxRatio = (p1FootworkMaxRaw / 15).toFixed(2);
+
+        const p2FootworkAvgRatio = (p2.average_footwork / 15).toFixed(2);
+        const p2FootworkMaxRatio = (p2FootworkMaxRaw / 15).toFixed(2);
+
+        // Update DOM text values
+        document.querySelectorAll(".player1-smash-avg").forEach(el => el.textContent = `${p1.average_smash_strength} m/s`);
+        document.querySelectorAll(".player1-smash-max").forEach(el => el.textContent = `${p1SmashMax} m/s`);
+        document.querySelectorAll(".player1-foot-avg").forEach(el => el.textContent = `${p1FootworkAvgRatio} m/s`);
+        document.querySelectorAll(".player1-foot-max").forEach(el => el.textContent = `${p1FootworkMaxRatio} m/s`);
+
+        document.querySelectorAll(".player2-smash-avg").forEach(el => el.textContent = `${p2.average_smash_strength} m/s`);
+        document.querySelectorAll(".player2-smash-max").forEach(el => el.textContent = `${p2SmashMax} m/s`);
+        document.querySelectorAll(".player2-foot-avg").forEach(el => el.textContent = `${p2FootworkAvgRatio} m/s`);
+        document.querySelectorAll(".player2-foot-max").forEach(el => el.textContent = `${p2FootworkMaxRatio} m/s`);
+
+      
+
+        // ApexCharts setup
+        function createChart(selector, avg, max, labelPrefix, color1, color2) {
+          return new ApexCharts(document.querySelector(selector), {
+            chart: { type: "donut", height: 350 },
+            series: [parseFloat(avg), parseFloat(max)],
+            labels: [`${labelPrefix} Avg`, `${labelPrefix} Max`],
+            title: {
+              text: `${labelPrefix} Metrics`,
+              align: "center",
+              style: { color: "#6c757d" },
+            },
+            colors: [color1, color2],
+            legend: { show: false },
+          });
+        }
+
+        createChart("#chart-container-player1", p1.average_smash_strength, p1SmashMax, " Smash", "#511ccd", "#d1b3ff").render();
+        createChart("#chart-container-player1-footwork", p1FootworkAvgRatio, p1FootworkMaxRatio, " Foot ", "#511ccd", "#d1b3ff").render();
+        createChart("#chart-container-player2", p2.average_smash_strength, p2SmashMax, " Smash", "#28a745", "#90ee90").render();
+        createChart("#chart-container-player2-footwork", p2FootworkAvgRatio, p2FootworkMaxRatio, " Foot ", "#28a745", "#90ee90").render();
+      });
+    </script>
+
+
+      <div class="bg-light mt-3 rounded-4 p-4 w-100">
+        <div class="mb-4">
+          <h2 class="text-center fw-bolder mb-3">Video Results</h2>
+           <video autoplay muted loop controls class="w-100 rounded-3" id="result-video">
+            <source
+              src=""
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const analyticsData = JSON.parse(document.getElementById("analytics-data").value);
+              const processedVideoUrl = analyticsData.processed_video_url;
+              document.querySelector("#result-video source").src = processedVideoUrl;
+              document.querySelector("#result-video").load(); // Reload the video with the new source
+            });
+          </script>
+        </div>
+        <div class="bg-light mt-3 rounded-4 w-100">
+          <h2 class="text-center fw-bold mb-3">Smash Type Detected</h2>
+          <table class="table">
+            <thead style="background-color: #511ccd; color: white;"></thead>
+              <tr>
+                <th>Player</th>
+                <th>Smash Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="color: gray;">Player 1</td>
+                <td style="color: gray;">Forehand Smash</td>
+              </tr>
+              <tr>
+                <td style="color: gray;">Player 1</td>
+                <td style="color: gray;">Backhand Smash</td>
+              </tr>
+              <tr>
+                <td style="color: gray;">Player 1</td>
+                <td style="color: gray;">Jump Smash</td>
+              </tr>
+              <tr>
+                <td style="color: gray;">Player 2</td>
+                <td style="color: gray;">Forehand Smash</td>
+              </tr>
+              <tr>
+                <td style="color: gray;">Player 2</td>
+                <td style="color: gray;">Backhand Smash</td>
+              </tr>
+              <tr>
+                <td style="color: gray;">Player 2</td>
+                <td style="color: gray;">Jump Smash</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+      </div>
+    </div>
+
+    {% include "components/footer.html" %}
+  </body>
+</html>

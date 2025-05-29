@@ -1,0 +1,150 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI-Based Sport Analytics</title>
+    {% include "components/header.html" %}
+    <style>
+      .container {
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body class="bg-secondary">
+    {% include "components/nav_mobile.html" %}
+    <style>
+      @media (min-width: 992px) {
+        /* laptop and above */
+        .container {
+          width: 50% !important;
+          max-width: 50% !important;
+        }
+      }
+    </style>
+    <div
+      style="margin-bottom: 300px"
+      class="container d-flex justify-content-center align-items-center flex-column"
+    >
+      <div class="bg-light rounded-4 p-4 w-100">
+        <h1>Hello, {{ name.fullname}}</h1>
+        <p>Welcome to AI Based Sports Analytics</p>
+      </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+      <div class="bg-light rounded-4 mt-3 p-4 w-100">
+  <input id="myInput" type="hidden" value="{{data}}" />
+
+  <div id="chart" style="min-height: 350px; position: relative;"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const inputElement = document.getElementById("myInput");
+      let inputValue = inputElement.value.trim();
+
+      const chartContainer = document.querySelector("#chart");
+
+      function showMessage(msg) {
+        chartContainer.innerHTML = `
+          <div style="
+            height: 350px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: #666;
+            user-select: none;
+          ">${msg}</div>`;
+      }
+
+      if (!inputValue) {
+        // No data at all, show message
+        showMessage("Scan video");
+        return;
+      }
+
+      try {
+        // Fix single quotes to double quotes for valid JSON
+        const fixedJsonString = inputValue.replace(/'/g, '"');
+
+        const data = JSON.parse(fixedJsonString);
+
+        if (
+          !data.dates?.length ||
+          !data.player1?.length ||
+          !data.player2?.length
+        ) {
+          // Missing or empty data arrays
+          showMessage("Empty data please scan video");
+          return;
+        }
+
+        const series = [
+          {
+            name: "Player 1 Average Smash Strength",
+            data: data.player1,
+          },
+          {
+            name: "Player 2 Average Smash Strength",
+            data: data.player2,
+          },
+        ];
+
+        const options = {
+          chart: {
+            type: "bar",
+            height: 350,
+          },
+          series: series,
+          xaxis: {
+            categories: data.dates,
+            labels: {
+              rotate: -45,
+              rotateAlways: true,
+              style: {
+                fontSize: "12px",
+              },
+            },
+          },
+          yaxis: {
+            title: {
+              text: "Average Smash Strength",
+            },
+          },
+          title: {
+            text: "Average Smash Strength Over Time",
+            align: "center",
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              columnWidth: "55%",
+              endingShape: "rounded",
+            },
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          tooltip: {
+            shared: true,
+            intersect: false,
+          },
+        };
+
+        const chart = new ApexCharts(chartContainer, options);
+        chart.render();
+
+      } catch (e) {
+        console.error("Failed to parse JSON:", e);
+        showMessage("Scan video");
+      }
+    });
+  </script>
+</div>
+
+      </div>
+    </div>
+
+    {% include "components/footer.html" %}
+  </body>
+</html>

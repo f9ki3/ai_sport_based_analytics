@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI-Based Sport Analytics</title>
+    {% include "components/header.html" %}
+  </head>
+  <body>
+    <div class="d-flex vh-100">
+      <div class="m-auto text-center col-12 col-md-6 col-lg-4">
+        <div class="success-icon fs-1 mb-3">✔️</div>
+        <h1 class="fw-bolder mb-3">Registration Successful!</h1>
+        <p class="text-muted mb-4">
+          Thank you for registering with AI-Based Sport Analytics. You can now
+          log in and start exploring.
+        </p>
+        <img
+          class="mb-4"
+          src="{{ url_for('static', filename='img/art4.svg') }}"
+          style="height: 300px"
+          alt="Success Illustration"
+        />
+        <a
+          href="/login"
+          type="submit"
+          class="btn rounded-4 btn-lg w-100 border bg-main"
+        >
+          Continue
+        </a>
+      </div>
+    </div>
+
+    <script>
+      function togglePasswordVisibility(inputId, iconId) {
+        const passwordInput = document.getElementById(inputId);
+        const passwordIcon = document.getElementById(iconId);
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          passwordIcon.classList.remove("bi-eye");
+          passwordIcon.classList.add("bi-eye-slash");
+        } else {
+          passwordInput.type = "password";
+          passwordIcon.classList.remove("bi-eye-slash");
+          passwordIcon.classList.add("bi-eye");
+        }
+      }
+    </script>
+    {% include "components/footer.html" %}
+  </body>
+</html>

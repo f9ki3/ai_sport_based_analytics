@@ -1,0 +1,65 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI-Based Sport Analytics</title>
+    {% include "components/header.html" %}
+    <style>
+      .container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+      }
+
+      @media (min-width: 992px) {
+        /* laptop and above */
+        .container {
+          width: 50%;
+          max-width: 50%;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-secondary">
+    {% include "components/nav_mobile.html" %}
+    <div
+      style="margin-bottom: 300px"
+      class="container d-flex justify-content-center align-items-center flex-column"
+    >
+      <h1 class="fw-bold mt-5">History</h1>
+      <div class="bg-light rounded-4 p-4 w-100">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Video</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if data %} {% for item in data %}
+            <tr>
+              <td class="py-3 text-muted"><p>{{ item.date }}</p></td>
+              <td class="py-3">
+                <a href="/view/{{ item.id }}">
+                  <i
+                    class="bi bi-play-circle-fill"
+                    style="color: #511ccd; font-size: 3.5rem"
+                  ></i>
+                </a>
+              </td>
+            </tr>
+            {% endfor %} {% else %}
+            <tr>
+              <td colspan="2" class="text-center py-3 text-muted">
+                No data available.
+              </td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {% include "components/footer.html" %}
+  </body>
+</html>
