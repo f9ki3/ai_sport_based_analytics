@@ -188,28 +188,6 @@ def process_video():
         )
         data = {"stats": final_stats, "processed_video_url": video_url}
         return render_template('/pages/results.html', data=data)
-    
-        # data = '''
-        # {
-        # "processed_video_url": "/static/save/output_20250529101806_zFqDfY.mp4",
-        # "stats": {
-        #     "Player_1": {
-        #     "average_footwork": 13.65,
-        #     "average_footwork_percentage": 45.5,
-        #     "average_smash_strength": 8.16,
-        #     "average_smash_strength_percentage": 16.31
-        #     },
-        #     "Player_2": {
-        #     "average_footwork": 11.33,
-        #     "average_footwork_percentage": 37.77,
-        #     "average_smash_strength": 7.25,
-        #     "average_smash_strength_percentage": 14.51
-        #     }
-        # }
-        # }
-        # '''
-        # parsed_data = json.loads(data)
-        # return render_template('/pages/results.html', data=parsed_data)
 
     except Exception as e:
         if os.path.exists(input_path):
